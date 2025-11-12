@@ -21,9 +21,12 @@ class MultiHeadAttention(nn.Module):
 
     def forward(self, q, k, v, mask=None):
         # 1. dot product with weight matrices
-        q, k, v = self.w_q(q), self.w_k(k), self.w_v(v)
+        # qkv  ==> 
+        # [batch_size, length, d_model=512]
+        Q, K, V = self.w_q(q), self.w_k(k), self.w_v(v)
 
         # 2. split tensor by number of heads
+        # [batch_size, head=8, length, d_tensor = d_model // head == 512/8 = 64]
         q, k, v = self.split(q), self.split(k), self.split(v)
 
         # 3. do scale dot product to compute similarity
